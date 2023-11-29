@@ -1,6 +1,7 @@
-package fr.efrei.repository;
+package fr.efrei.web.rest;
 
 import fr.efrei.domain.Item;
+import fr.efrei.repository.ItemRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,14 +19,19 @@ public class ItemResourceIT {
     @Autowired
     private ItemRepository itemRepository;
 
-//    @Test
-//    @Transactional
-//    void createItem() throws Exception {
-//        System.out.println(itemRepository.findAll());
-//        int databaseSizeBeforeCreate = itemRepository.findAll().size();
-//        assertThat(databaseSizeBeforeCreate).isEqualTo(0);
-//
-//        List<Item> itemList = itemRepository.findAll();
-//        assertThat(itemList).hasSize(databaseSizeBeforeCreate + 1);
-//    }
+    @Test
+    @Transactional
+    void createItem() throws Exception {
+        int databaseSizeBeforeCreate = itemRepository.findAll().size();
+        assertThat(databaseSizeBeforeCreate).isEqualTo(0);
+
+        Item item = new Item();
+        item.setId(1);
+        item.setName("Pierre");
+        itemRepository.save(item);
+
+        List<Item> itemList = itemRepository.findAll();
+        assertThat(itemList.size()).isEqualTo(databaseSizeBeforeCreate + 1);
+
+    }
 }
